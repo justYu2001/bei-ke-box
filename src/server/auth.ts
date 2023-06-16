@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import type { DefaultSession, DefaultUser, NextAuthOptions } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { getCsrfToken } from "next-auth/react";
 import { SiweMessage } from "siwe";
 
@@ -83,6 +84,10 @@ export const getAuthOptions = (request: NextApiRequest | GetServerSidePropsConte
         },
         adapter: PrismaAdapter(prisma),
         providers: [
+            GoogleProvider({
+                clientId: env.GOOGLE_CLIENT_ID,
+                clientSecret: env.GOOGLE_CLIENT_SECRET,
+            }),
             EthereumProvider(request),
             /**
              * ...add more providers here.
