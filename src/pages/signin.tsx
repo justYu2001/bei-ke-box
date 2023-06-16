@@ -14,6 +14,7 @@ import type { Connector } from "wagmi";
 
 import { getServerAuthSession } from "@/server/auth";
 import MetamaskLogo from "public/images/metamask.png";
+import GoogleLogo from "public/images/google.png";
 
 const SignInPage = ({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     return (
@@ -234,9 +235,10 @@ const SignInButton = ({ providerName, onClick }: SignInButtonProps) => {
     );
 };
 
-const Providers = ["MetaMask"] as const;
+const Providers = ["Google" ,"MetaMask"] as const;
 type Provider = (typeof Providers)[number];
 
 const Logos: Record<Provider, StaticImageData> = {
+    Google: GoogleLogo,
     MetaMask: MetamaskLogo,
 };
