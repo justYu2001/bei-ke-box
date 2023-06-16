@@ -7,7 +7,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "init:db": "rm -rf db && mkdir db && docker run --name bei-ke-box -v `(pwd)`/db:/var/lib/mysql:rw -p 3306:3306 -e MYSQL_ROOT_PASSWORD=test -e MYSQL_DATABASE=bei-ke-box -d mysql:8.0"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
@@ -22,7 +23,11 @@
     "next-auth": "^4.21.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.9.0",
+    "siwe": "^2.1.4",
     "superjson": "1.12.2",
+    "viem": "^1.0.7",
+    "wagmi": "^1.2.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

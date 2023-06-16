@@ -1,4 +1,12 @@
-import NextAuth from "next-auth";
-import { authOptions } from "@/server/auth";
+import type { NextApiHandler } from "next";
 
-export default NextAuth(authOptions);
+import NextAuth from "next-auth";
+
+import { getAuthOptions } from "@/server/auth";
+
+const auth: NextApiHandler = (request, response) => {
+    const authOptions = getAuthOptions(request);
+    return NextAuth(request, response, authOptions);
+}
+
+export default auth;
