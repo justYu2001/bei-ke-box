@@ -1,3 +1,6 @@
+import { z } from "zod";
+
+import { ethereumWalletAddressSchema } from "@/schemas";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 export const accountsRouter = createTRPCRouter({
@@ -31,6 +34,38 @@ export const accountsRouter = createTRPCRouter({
                         semester: "desc",
                     },
                 ]
+            });
+        }),
+    connectCryptoWallet : protectedProcedure
+        .input(
+            z.object({
+                address: ethereumWalletAddressSchema,
+                provider: z.string().nonempty(),
+            })
+        )
+        .mutation(async ({ input: { address, provider }, ctx: { session, prisma } }) => {
+            const account  = await prisma.account.findUnique({
+                where: {
+                    id: address,
+                },
+            });
+
+            if (account) {
+                return account;
+            }
+            
+            return prisma.account.create({
+                data: {
+                    id: address,
+                    user: {
+                        connect: {
+                            id: session.user.id,
+                        },
+                    },
+                    type: "crypto wallet",
+                    provider,
+                    providerAccountId: address,
+                },
             });
         }),
 });
