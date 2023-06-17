@@ -27,6 +27,7 @@
     "next-auth": "^4.21.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.44.3",
     "react-icons": "^4.9.0",
     "siwe": "^2.1.4",
     "superjson": "1.12.2",
