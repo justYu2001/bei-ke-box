@@ -72,6 +72,7 @@ model Note {
     description String?
     author      User                  @relation(fields: [authorId], references: [id])
     buyers      UsersPurchasedNotes[]
+    course      Course                @relation(fields: [courseId], references: [id])
 }
 
 model UsersPurchasedNotes {
@@ -90,4 +91,12 @@ model Student {
 model Teacher {
     id      String              @id @unique
     name    String
+}
+
+model Course {
+    id       String              @id @unique
+    year     Int
+    semester Int
+    name     String
+    notes    Note[]
 }
