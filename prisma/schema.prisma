@@ -51,6 +51,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     createdNotes   Note[]
+    purchasedNotes UsersPurchasedNotes[]
 }
 
 model VerificationToken {
@@ -70,4 +71,14 @@ model Note {
     courseId    String
     description String?
     author      User                  @relation(fields: [authorId], references: [id])
+    buyers      UsersPurchasedNotes[]
+}
+
+model UsersPurchasedNotes {
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+    note   Note   @relation(fields: [noteId], references: [id])
+    noteId String
+
+    @@id([noteId, userId])
 }
