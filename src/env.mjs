@@ -22,6 +22,11 @@ export const env = createEnv({
     ),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
+    FILE_ENCRYPTION_KEY: z.string().length(32),
+    FILE_IV: z.string().length(32),
+    BeKeiBox_ADDRESS: z.string().min(1),
+    BeKeiBox_OWNER_ADDRESS: z.string().min(1),
+    RPC_URL: z.string().url(),
   },
 
   /**
@@ -44,5 +49,10 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    FILE_ENCRYPTION_KEY: process.env.FILE_ENCRYPTION_KEY,
+    FILE_IV: process.env.FILE_IV,
+    BeKeiBox_ADDRESS: process.env.BeKeiBox_ADDRESS,
+    BeKeiBox_OWNER_ADDRESS: process.env.BeKeiBox_OWNER_ADDRESS,
+    RPC_URL: process.env.RPC_URL,
   },
 });
