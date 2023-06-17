@@ -2,6 +2,7 @@ import type { AppType } from "next/app";
 
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { pdfjs } from "react-pdf";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { hardhat, mainnet } from "wagmi/chains";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -10,6 +11,10 @@ import { publicProvider } from "wagmi/providers/public";
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const { chains, publicClient } = configureChains(
     [mainnet, hardhat],
