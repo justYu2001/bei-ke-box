@@ -92,6 +92,7 @@ model Student {
 model Teacher {
     id      String              @id @unique
     name    String
+    courses TeachersInCourses[]
 }
 
 model Course {
@@ -101,6 +102,7 @@ model Course {
     name     String
     notes    Note[]
     students StudentsInCourses[]
+    teachers TeachersInCourses[]
 }
 
 model StudentsInCourses {
@@ -110,4 +112,13 @@ model StudentsInCourses {
     courseId  String
 
     @@id([studentId, courseId])
+}
+
+model TeachersInCourses {
+    teacher   Teacher @relation(fields: [teacherId], references: [id])
+    teacherId String
+    course    Course  @relation(fields: [courseId], references: [id])
+    courseId  String
+
+    @@id([teacherId, courseId])
 }
