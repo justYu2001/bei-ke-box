@@ -65,11 +65,13 @@ export const getAuthOptions = (request: NextApiRequest | GetServerSidePropsConte
 
                 let userId = token.id;
                 let username = session.user?.name;
+                let email = session.user?.email;
 
                 if (isCryptoWallet) {
                     const user = await getUserByWallet(parsedAddress.data, walletProvider);
                     userId = user.id;
                     username = user.name;
+                    email = user.email;
                 }
 
                 return {
@@ -78,6 +80,7 @@ export const getAuthOptions = (request: NextApiRequest | GetServerSidePropsConte
                         ...session.user,
                         id: userId,
                         name: username,
+                        email,
                     },
                 };
             },
