@@ -82,3 +82,7 @@ model UsersPurchasedNotes {
 
     @@id([noteId, userId])
 }
+
+model Student {
+    id      String              @id @unique
+}
