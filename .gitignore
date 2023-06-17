@@ -15,6 +15,7 @@
 
 # ABI
 /abi
+/types
 
 # next.js
 /.next/
