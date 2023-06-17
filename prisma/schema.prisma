@@ -86,3 +86,8 @@ model UsersPurchasedNotes {
 model Student {
     id      String              @id @unique
 }
+
+model Teacher {
+    id      String              @id @unique
+    name    String
+}
