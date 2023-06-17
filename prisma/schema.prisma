@@ -86,6 +86,7 @@ model UsersPurchasedNotes {
 
 model Student {
     id      String              @id @unique
+    courses StudentsInCourses[]
 }
 
 model Teacher {
@@ -99,4 +100,14 @@ model Course {
     semester Int
     name     String
     notes    Note[]
+    students StudentsInCourses[]
+}
+
+model StudentsInCourses {
+    student   Student @relation(fields: [studentId], references: [id])
+    studentId String
+    course    Course  @relation(fields: [courseId], references: [id])
+    courseId  String
+
+    @@id([studentId, courseId])
 }
