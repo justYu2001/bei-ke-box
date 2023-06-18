@@ -4,3 +4,15 @@ services:
       dockerfile: ./dockerfiles/hardhat.Dockerfile
     ports:
       - "8545:8545"
+  database:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=test
+      - MYSQL_DATABASE=bei-ke-box
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "database"]
+      interval: 5s
