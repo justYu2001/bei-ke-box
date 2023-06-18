@@ -95,6 +95,20 @@ export const accountsRouter = createTRPCRouter({
 
             return note !== null;
         }),
+    buyNote: protectedProcedure
+        .input(
+            z.object({
+                noteId: cidSchema,
+            })
+        )
+        .mutation(({ input: { noteId }, ctx: { session, prisma } }) => {
+            return prisma.usersPurchasedNotes.create({
+                data: {
+                    noteId,
+                    userId: session.user.id,
+                },
+            });
+        }),
 });
 
 const getStudentIdByEmail = (email: string) => {
