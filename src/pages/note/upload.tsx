@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { NextPage, GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 
 import { useRef, useState } from "react";
@@ -32,6 +32,7 @@ import { z } from "zod";
 
 import type { Course } from "@prisma/client";
 import type { NewNoteApiSuccessResponse } from "@/pages/api/notes";
+import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
 
 const newNoteSchema = z.object({
@@ -127,6 +128,25 @@ const NewNotePage: NextPage = () => {
 };
 
 export default NewNotePage;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const session = await getServerAuthSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: "/signin",
+                permanent: false,
+            },
+        };
+    }
+
+    return {
+        props: {
+            user: session.user,
+        }
+    };
+};
 
 const getFormData = (data: NewNote) => {
     const formData = new FormData();
