@@ -12,6 +12,7 @@ import { MdGridOn } from "react-icons/md";
 import { useAccount, useDisconnect } from "wagmi";
 
 import type { Account, User } from "@prisma/client";
+import SearchBar from "@/components/filter/SearchBar";
 import { api } from "@/utils/api";
 import DefaultUserAvatar from "public/images/default-avatar.png";
 
@@ -55,6 +56,10 @@ const HeaderContent = () => {
         },
     });
 
+    const searchNote = (keyword: string) => {
+        void router.push(`/search?keyword=${keyword}`);
+    };
+
     if (router.pathname === "/signin") {
         return <div className="h-10" />;
     }
@@ -66,6 +71,14 @@ const HeaderContent = () => {
             </Link>
             {!user && <SignInButton />}
             {user && <UserAvatar user={user} />}
+
+            <div className="absolute inset-0 flex justify-center items-center -z-10">
+                <SearchBar
+                    width="w-3/5"
+                    placeholder="輸入課號、筆記名稱、作者名稱、教授名稱或課名進行搜尋"
+                    onChange={searchNote}
+                />
+            </div>
         </>
     );
 };
