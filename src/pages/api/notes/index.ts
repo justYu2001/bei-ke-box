@@ -190,7 +190,7 @@ const mintNoteToken = async (producer: AddressLike, price: BigNumberish) => {
 
     const signer = await provider.getSigner(env.BeKeiBox_OWNER_ADDRESS);
 
-    const contract = BeiKeBox__factory.connect(env.BeKeiBox_ADDRESS, signer);
+    const contract = BeiKeBox__factory.connect(env.NEXT_PUBLIC_BEKEIBOX_ADDRESS, signer);
 
     const transaction = await contract.initializeToken(producer, 1e8, parseEther(price.toString()));
     await transaction.wait();
