@@ -1,0 +1,6 @@
+services:
+  hardhat:
+    build:
+      dockerfile: ./dockerfiles/hardhat.Dockerfile
+    ports:
+      - "8545:8545"
