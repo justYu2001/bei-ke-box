@@ -109,6 +109,17 @@ export const accountsRouter = createTRPCRouter({
                 },
             });
         }),
+    fetchAccount: protectedProcedure
+        .query(({ ctx: { session, prisma } }) => {
+            return prisma.user.findUnique({
+                where: {
+                    id: session.user.id,
+                },
+                include: {
+                    accounts: true,
+                }
+            })
+        }),
 });
 
 const getStudentIdByEmail = (email: string) => {
