@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { ethereumWalletAddressSchema } from "@/schemas";
+import { cidSchema, ethereumWalletAddressSchema } from "@/schemas";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 export const accountsRouter = createTRPCRouter({
@@ -65,6 +65,47 @@ export const accountsRouter = createTRPCRouter({
                     type: "crypto wallet",
                     provider,
                     providerAccountId: address,
+                },
+            });
+        }),
+    isOwned: protectedProcedure
+        .input(
+            z.object({
+                noteId: cidSchema.optional(),
+            })
+        )
+        .query(async ({ input: { noteId }, ctx: { session, prisma } }) => {
+            const note = await prisma.note.findFirst({
+                where: {
+                    id: noteId ?? "",
+                    OR: [
+                        {
+                            authorId: session.user.id,
+                        },
+                        {
+                            buyers: {
+                                some: {
+                                    userId: session.user.id,
+                                }
+                            }
+                        }
+                    ]
+                }
+            });
+
+            return note !== null;
+        }),
+    buyNote: protectedProcedure
+        .input(
+            z.object({
+                noteId: cidSchema,
+            })
+        )
+        .mutation(({ input: { noteId }, ctx: { session, prisma } }) => {
+            return prisma.usersPurchasedNotes.create({
+                data: {
+                    noteId,
+                    userId: session.user.id,
                 },
             });
         }),
