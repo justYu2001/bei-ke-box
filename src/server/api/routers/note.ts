@@ -106,4 +106,87 @@ export const noteRouter = createTRPCRouter({
                 }
             });
         }),
+    searchNotes: publicProcedure
+        .input(
+            z.object({
+                keyword: z.string(),
+                minPrice: z.number().min(0),
+                maxPrice: z.number().max(1_000_000),
+                year: z.number().min(0),
+                semester: z.number().min(1).max(2),
+            })
+        )
+        .query(({ input, ctx: { prisma } }) => {
+            const { 
+                keyword,
+                minPrice,
+                maxPrice,
+                year,
+                semester,
+            } = input;
+
+            return prisma.note.findMany({
+                where: {
+                    price: {
+                        gte: minPrice,
+                        lte: maxPrice,
+                    },
+                    course: {
+                        year,
+                        semester,
+                    },
+                    OR: [
+                        {
+                            name: {
+                                contains: keyword,
+                            },
+                        },
+                        {
+                            courseId: {
+                                contains: keyword,
+                            },
+                        },
+                        {
+                            course: {
+                                name: {
+                                    contains: keyword,
+                                }
+                            }
+                        },
+                        {
+                            author: {
+                                name: {
+                                    contains: keyword,
+                                }
+                            }
+                        },
+                        {
+                            course: {
+                                teachers: {
+                                    some: {
+                                        teacher: {
+                                            name: {
+                                                contains: keyword,
+                                            },
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    ],
+                },
+                include: {
+                    course: {
+                        include: {
+                            teachers: {
+                                include: {
+                                    teacher: true,
+                                }
+                            },
+                        },
+                    },
+                    author: true,
+                }
+            });
+        }),
 });
