@@ -30,6 +30,7 @@ services:
       # For IPFS
       - "4001:4001"
       - "4001:4001/udp"
+      - "4002:4002/udp"
       - "127.0.0.1:8000:8000"
     image: t3-app
     depends_on:
