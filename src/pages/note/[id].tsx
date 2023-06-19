@@ -64,8 +64,6 @@ const NotePage: NextPage = () => {
 
     const { data: file } = useFetchPdf(note?.id, !isOwned);
 
-    console.log("file: ", file);
-
     if (isFetchingNoteError) {
         return <p>Error!</p>;
     }
